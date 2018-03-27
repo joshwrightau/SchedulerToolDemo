@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="140707c65a354ecda8280ca79b62fc96" Name="Diagram1">
+        <EntityTypeShape EntityType="SchedulerModel.Employee" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.EmployeeToTeamMap" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.PriorityLevel" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.Task" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.TaskStatu" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.TaskType" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.Team" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.Utilization" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerModel.WorkRequest" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="SchedulerModel.FK_EmployeeToTeamMapEmployee_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TaskEmployee_Resource" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TeamEmployee_TeamLeader" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_WorkRequestEmployee_Owner" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_EmployeeToTeamMapTeam_Team" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TaskPriorityLevel_PriorityId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TaskTaskStatus_StatusId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TaskTaskType_TypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_TaskWorkRequest_WorkRequestId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_UtilizationTask_TaskId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_UtilizationTaskType_TaskTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="SchedulerModel.FK_UtilizationWorkRequest_WorkRequestId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

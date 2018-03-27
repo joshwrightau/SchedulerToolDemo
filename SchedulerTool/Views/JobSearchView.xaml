@@ -1,0 +1,227 @@
+﻿<UserControl x:Class="SchedulerTool.Views.JobSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:SchedulerTool.ViewModels"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:c="clr-namespace:SchedulerTool.Converters"
+             xmlns:local="clr-namespace:SchedulerTool.Views"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:JobSearchViewModel,
+                                     IsDesignTimeCreatable=True}"
+             d:DesignHeight="600"
+             d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Textbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Button
+                    Width="25"
+                    Height="25"
+                    Margin="2.5 2.5 5 2.5"
+                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                    md:ButtonProgressAssist.IsIndeterminate="{Binding IsSearching, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    md:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSearching, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    md:ButtonProgressAssist.Value="-1"
+                    Command="{Binding SearchCommand}"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding IsSearchingEnabled, Mode=OneWay}">
+                    <md:PackIcon
+                        Width="20"
+                        Height="20"
+                        Kind="AccountSearch" />
+                </Button>
+                <TextBox Margin="0 0 5 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="16"
+                         md:HintAssist.FloatingScale="0.50"
+                         md:HintAssist.Hint="Enter your search here, multiple queries can be seperated by a semi-colon"
+                         AcceptsReturn="False" AcceptsTab="False" DockPanel.Dock="Right"
+                         Text="{Binding UserSearchInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <DataGrid Margin="2.5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                          GridLinesVisibility="None"
+                          HorizontalScrollBarVisibility="Disabled"
+                          ItemsSource="{Binding WorkRequests, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Single" 
+                          d:DataContext="{d:DesignInstance vm:WorkRequestViewModel, IsDesignTimeCreatable=True}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Client}"
+                            Header="Client" />
+                        <DataGridTextColumn
+                            Binding="{Binding Id}"
+                            Header="Job Number" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Name}"
+                            Header="Name" />
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="25"
+                                        Height="25"
+                                        Margin="8,2.5,8,2.5"
+                                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                                        md:ButtonProgressAssist.IsIndeterminate="{Binding IsWorkingLink, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        md:ButtonProgressAssist.IsIndicatorVisible="{Binding IsWorkingLink, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        md:ButtonProgressAssist.Value="-1"
+                                        Command="{Binding OpenCommand}"
+                                        DockPanel.Dock="Right"
+                                        IsEnabled="{Binding LinkEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <md:PackIcon
+                                            Width="20"
+                                            Height="20">
+                                            <md:PackIcon.Style>
+                                                <Style
+                                                    TargetType="md:PackIcon">
+                                                    <Setter Property="Kind" Value="LinkVariant" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding ExternalLink, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            Value="{x:Null}">
+                                                            <Setter Property="Kind" Value="LinkOff" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </md:PackIcon.Style>
+                                        </md:PackIcon>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="25"
+                                        Height="25"
+                                        Margin="8,2.5,8,2.5"
+                                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                                        md:ButtonProgressAssist.IsIndeterminate="{Binding IsSaving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        md:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSaving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        md:ButtonProgressAssist.Value="-1"
+                                        Command="{Binding SaveFileCommand}"
+                                        DockPanel.Dock="Right"
+                                        IsEnabled="{Binding TaskList.IsEmpty, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={c:InvertBool}}">
+                                        <md:PackIcon
+                                            Width="20"
+                                            Height="20">
+                                            <md:PackIcon.Style>
+                                                <Style
+                                                    TargetType="md:PackIcon">
+                                                    <Setter Property="Kind" Value="FileExport" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding IsSavingComplete, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            Value="True">
+                                                            <Setter Property="Kind" Value="Check" />
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation
+                                                                            Duration="0:0:0.8"
+                                                                            From="0"
+                                                                            Storyboard.TargetProperty="Opacity"
+                                                                            To="1" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </md:PackIcon.Style>
+                                        </md:PackIcon>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <DataGrid
+                                    Margin="2.5"
+                                    HorizontalAlignment="Stretch"
+                                    AutoGenerateColumns="False"
+                                    CanUserAddRows="False"
+                                    CanUserDeleteRows="False"
+                                    GridLinesVisibility="None"
+                                    ItemsSource="{Binding TaskList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn
+                                            Binding="{Binding ScheduledUtc, StringFormat={}{0:yyyy-MM-dd}}"
+                                            Header="Scheduled Date" />
+                                        <DataGridTextColumn
+                                            Binding="{Binding Employees.FirstName}"
+                                            Header="Assigned Team Member" />
+                                        <DataGridTextColumn
+                                            Binding="{Binding TaskTypes.Name}"
+                                            Header="Role">
+                                            <DataGridTextColumn.CellStyle>
+                                                <Style
+                                                    TargetType="DataGridCell">
+          
+                                                            <Setter Property="Foreground" Value="{Binding ForegroundColour}" />
+                                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                                </Style>
+                                            </DataGridTextColumn.CellStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Binding="{Binding TaskStatuses.Name}"
+                                            Header="Status">
+                                            <DataGridTextColumn.CellStyle>
+                                                <Style
+                                                    TargetType="DataGridCell">
+
+                                                            <Setter Property="Foreground" Value="{Binding TaskStatuses.ForegroundColour}" />
+                                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                                        
+                                                </Style>
+                                            </DataGridTextColumn.CellStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Binding="{Binding HoursScheduled, StringFormat={}{0:0.00}}"
+                                            Header="Hours">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style
+                                                    TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <!--<DataGridTextColumn
+                                            Width="*"
+                                            Binding="{Binding Comment}"
+                                            Header="Comment" />-->
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

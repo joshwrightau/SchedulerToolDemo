@@ -13,28 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SchedulerTool
+namespace SchedulerTool.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DocumentLinks.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DocumentLinks : UserControl
     {
-        public MainWindow()
+        public DocumentLinks()
         {
             InitializeComponent();
-        }
-
-        private void MoveWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                DragMove();
-            }
-            catch
-            {
-                // Supress Error and Do Nothing
-            }
         }
     }
 }

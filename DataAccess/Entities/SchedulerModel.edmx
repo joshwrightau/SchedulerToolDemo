@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SchedulerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeToTeamMap">
+          <Key>
+            <PropertyRef Name="Employee" />
+            <PropertyRef Name="Team" />
+          </Key>
+          <Property Name="Employee" Type="bigint" Nullable="false" />
+          <Property Name="Team" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PriorityLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="BackgroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="ForegroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkRequestId" Type="bigint" Nullable="false" />
+          <Property Name="HoursEstimated" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="HoursScheduled" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ScheduledUTC" Type="date" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="PriorityId" Type="int" Nullable="false" />
+          <Property Name="Resource" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="BackgroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="ForegroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="BackgroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="ForegroundColour" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TeamLeader" Type="bigint" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkRequestId" Type="bigint" Nullable="false" />
+          <Property Name="TaskId" Type="bigint" />
+          <Property Name="TaskTypeId" Type="int" Nullable="false" />
+          <Property Name="Hours" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Owner" Type="bigint" Nullable="false" />
+          <Property Name="ExternalLink" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeToTeamMapEmployee_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeToTeamMap" Type="Self.EmployeeToTeamMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeToTeamMap">
+              <PropertyRef Name="Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeToTeamMapTeam_Team">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="EmployeeToTeamMap" Type="Self.EmployeeToTeamMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeToTeamMap">
+              <PropertyRef Name="Team" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskEmployee_Resource">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Resource" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskPriorityLevel_PriorityId">
+          <End Role="PriorityLevel" Type="Self.PriorityLevel" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityLevel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="PriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTaskStatus_StatusId">
+          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTaskType_TypeId">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskWorkRequest_WorkRequestId">
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="WorkRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamEmployee_TeamLeader">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="TeamLeader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationTask_TaskId">
+          <End Role="Task" Type="Self.Task" Multiplicity="0..1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationTaskType_TaskTypeId">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="TaskTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationWorkRequest_WorkRequestId">
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="WorkRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkRequestEmployee_Owner">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkRequest">
+              <PropertyRef Name="Owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SchedulerModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="EmployeeToTeamMap" EntityType="Self.EmployeeToTeamMap" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="PriorityLevel" EntityType="Self.PriorityLevel" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="Utilization" EntityType="Self.Utilization" Schema="Scheduler" store:Type="Tables" />
+          <EntitySet Name="WorkRequest" EntityType="Self.WorkRequest" Schema="Scheduler" store:Type="Tables" />
+          <AssociationSet Name="FK_EmployeeToTeamMapEmployee_Employee" Association="Self.FK_EmployeeToTeamMapEmployee_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeToTeamMap" EntitySet="EmployeeToTeamMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeToTeamMapTeam_Team" Association="Self.FK_EmployeeToTeamMapTeam_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="EmployeeToTeamMap" EntitySet="EmployeeToTeamMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskEmployee_Resource" Association="Self.FK_TaskEmployee_Resource">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskPriorityLevel_PriorityId" Association="Self.FK_TaskPriorityLevel_PriorityId">
+            <End Role="PriorityLevel" EntitySet="PriorityLevel" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTaskStatus_StatusId" Association="Self.FK_TaskTaskStatus_StatusId">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTaskType_TypeId" Association="Self.FK_TaskTaskType_TypeId">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskWorkRequest_WorkRequestId" Association="Self.FK_TaskWorkRequest_WorkRequestId">
+            <End Role="WorkRequest" EntitySet="WorkRequest" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamEmployee_TeamLeader" Association="Self.FK_TeamEmployee_TeamLeader">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationTask_TaskId" Association="Self.FK_UtilizationTask_TaskId">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Utilization" EntitySet="Utilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationTaskType_TaskTypeId" Association="Self.FK_UtilizationTaskType_TaskTypeId">
+            <End Role="TaskType" EntitySet="TaskType" />
+            <End Role="Utilization" EntitySet="Utilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationWorkRequest_WorkRequestId" Association="Self.FK_UtilizationWorkRequest_WorkRequestId">
+            <End Role="WorkRequest" EntitySet="WorkRequest" />
+            <End Role="Utilization" EntitySet="Utilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkRequestEmployee_Owner" Association="Self.FK_WorkRequestEmployee_Owner">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="WorkRequest" EntitySet="WorkRequest" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SchedulerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmployeeToTeamMaps" Relationship="Self.FK_EmployeeToTeamMapEmployee_Employee" FromRole="Employee" ToRole="EmployeeToTeamMap" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TaskEmployee_Resource" FromRole="Employee" ToRole="Task" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK_TeamEmployee_TeamLeader" FromRole="Employee" ToRole="Team" />
+          <NavigationProperty Name="WorkRequests" Relationship="Self.FK_WorkRequestEmployee_Owner" FromRole="Employee" ToRole="WorkRequest" />
+        </EntityType>
+        <EntityType Name="EmployeeToTeamMap">
+          <Key>
+            <PropertyRef Name="Employee" />
+            <PropertyRef Name="Team" />
+          </Key>
+          <Property Name="Employee" Type="Int64" Nullable="false" />
+          <Property Name="Team" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TeamToEmployee" Relationship="Self.FK_EmployeeToTeamMapEmployee_Employee" FromRole="EmployeeToTeamMap" ToRole="Employee" />
+          <NavigationProperty Name="EmployeeToTeam" Relationship="Self.FK_EmployeeToTeamMapTeam_Team" FromRole="EmployeeToTeamMap" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="PriorityLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="BackgroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForegroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TaskPriorityLevel_PriorityId" FromRole="PriorityLevel" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkRequestId" Type="Int64" Nullable="false" />
+          <Property Name="HoursEstimated" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="HoursScheduled" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ScheduledUTC" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="PriorityId" Type="Int32" Nullable="false" />
+          <Property Name="Resource" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_TaskEmployee_Resource" FromRole="Task" ToRole="Employee" />
+          <NavigationProperty Name="PriorityLevel" Relationship="Self.FK_TaskPriorityLevel_PriorityId" FromRole="Task" ToRole="PriorityLevel" />
+          <NavigationProperty Name="TaskStatus" Relationship="Self.FK_TaskTaskStatus_StatusId" FromRole="Task" ToRole="TaskStatus" />
+          <NavigationProperty Name="TaskTypes" Relationship="Self.FK_TaskTaskType_TypeId" FromRole="Task" ToRole="TaskType" />
+          <NavigationProperty Name="WorkRequests" Relationship="Self.FK_TaskWorkRequest_WorkRequestId" FromRole="Task" ToRole="WorkRequest" />
+          <NavigationProperty Name="Utilization" Relationship="Self.FK_UtilizationTask_TaskId" FromRole="Task" ToRole="Utilization" />
+        </EntityType>
+        <EntityType Name="TaskStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="BackgroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForegroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TaskTaskStatus_StatusId" FromRole="TaskStatus" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="BackgroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ForegroundColour" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TaskTaskType_TypeId" FromRole="TaskType" ToRole="Task" />
+          <NavigationProperty Name="Utilizations" Relationship="Self.FK_UtilizationTaskType_TaskTypeId" FromRole="TaskType" ToRole="Utilization" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TeamLeader" Type="Int64" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_TeamEmployee_TeamLeader" FromRole="Team" ToRole="Employee" />
+          <NavigationProperty Name="EmployeeToTeamMaps" Relationship="Self.FK_EmployeeToTeamMapTeam_Team" FromRole="Team" ToRole="EmployeeToTeamMap" />
+        </EntityType>
+        <EntityType Name="Utilization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkRequestId" Type="Int64" Nullable="false" />
+          <Property Name="TaskId" Type="Int64" />
+          <Property Name="TaskTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Hours" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_UtilizationTask_TaskId" FromRole="Utilization" ToRole="Task" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_UtilizationTaskType_TaskTypeId" FromRole="Utilization" ToRole="TaskType" />
+          <NavigationProperty Name="WorkRequest" Relationship="Self.FK_UtilizationWorkRequest_WorkRequestId" FromRole="Utilization" ToRole="WorkRequest" />
+        </EntityType>
+        <EntityType Name="WorkRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Owner" Type="Int64" Nullable="false" />
+          <Property Name="ExternalLink" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_WorkRequestEmployee_Owner" FromRole="WorkRequest" ToRole="Employee" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TaskWorkRequest_WorkRequestId" FromRole="WorkRequest" ToRole="Task" />
+          <NavigationProperty Name="Utilizations" Relationship="Self.FK_UtilizationWorkRequest_WorkRequestId" FromRole="WorkRequest" ToRole="Utilization" />
+        </EntityType>
+        <Association Name="FK_EmployeeToTeamMapEmployee_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeToTeamMap" Type="Self.EmployeeToTeamMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeToTeamMap">
+              <PropertyRef Name="Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskEmployee_Resource">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Resource" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamEmployee_TeamLeader">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="TeamLeader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkRequestEmployee_Owner">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkRequest">
+              <PropertyRef Name="Owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeToTeamMapTeam_Team">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="EmployeeToTeamMap" Type="Self.EmployeeToTeamMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeToTeamMap">
+              <PropertyRef Name="Team" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskPriorityLevel_PriorityId">
+          <End Role="PriorityLevel" Type="Self.PriorityLevel" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityLevel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="PriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTaskStatus_StatusId">
+          <End Role="TaskStatus" Type="Self.TaskStatu" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTaskType_TypeId">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskWorkRequest_WorkRequestId">
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="WorkRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationTask_TaskId">
+          <End Role="Task" Type="Self.Task" Multiplicity="0..1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationTaskType_TaskTypeId">
+          <End Role="TaskType" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="TaskTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizationWorkRequest_WorkRequestId">
+          <End Role="WorkRequest" Type="Self.WorkRequest" Multiplicity="1" />
+          <End Role="Utilization" Type="Self.Utilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Utilization">
+              <PropertyRef Name="WorkRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeToTeamMaps" EntityType="Self.EmployeeToTeamMap" />
+          <EntitySet Name="PriorityLevels" EntityType="Self.PriorityLevel" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="TaskStatus" EntityType="Self.TaskStatu" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <EntitySet Name="Utilizations" EntityType="Self.Utilization" />
+          <EntitySet Name="WorkRequests" EntityType="Self.WorkRequest" />
+          <AssociationSet Name="FK_EmployeeToTeamMapEmployee_Employee" Association="Self.FK_EmployeeToTeamMapEmployee_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeToTeamMap" EntitySet="EmployeeToTeamMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskEmployee_Resource" Association="Self.FK_TaskEmployee_Resource">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamEmployee_TeamLeader" Association="Self.FK_TeamEmployee_TeamLeader">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkRequestEmployee_Owner" Association="Self.FK_WorkRequestEmployee_Owner">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="WorkRequest" EntitySet="WorkRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeToTeamMapTeam_Team" Association="Self.FK_EmployeeToTeamMapTeam_Team">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="EmployeeToTeamMap" EntitySet="EmployeeToTeamMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskPriorityLevel_PriorityId" Association="Self.FK_TaskPriorityLevel_PriorityId">
+            <End Role="PriorityLevel" EntitySet="PriorityLevels" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTaskStatus_StatusId" Association="Self.FK_TaskTaskStatus_StatusId">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTaskType_TypeId" Association="Self.FK_TaskTaskType_TypeId">
+            <End Role="TaskType" EntitySet="TaskTypes" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskWorkRequest_WorkRequestId" Association="Self.FK_TaskWorkRequest_WorkRequestId">
+            <End Role="WorkRequest" EntitySet="WorkRequests" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationTask_TaskId" Association="Self.FK_UtilizationTask_TaskId">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Utilization" EntitySet="Utilizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationTaskType_TaskTypeId" Association="Self.FK_UtilizationTaskType_TaskTypeId">
+            <End Role="TaskType" EntitySet="TaskTypes" />
+            <End Role="Utilization" EntitySet="Utilizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizationWorkRequest_WorkRequestId" Association="Self.FK_UtilizationWorkRequest_WorkRequestId">
+            <End Role="WorkRequest" EntitySet="WorkRequests" />
+            <End Role="Utilization" EntitySet="Utilizations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SchedulerModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="SchedulerModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeToTeamMaps">
+            <EntityTypeMapping TypeName="SchedulerModel.EmployeeToTeamMap">
+              <MappingFragment StoreEntitySet="EmployeeToTeamMap">
+                <ScalarProperty Name="Employee" ColumnName="Employee" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriorityLevels">
+            <EntityTypeMapping TypeName="SchedulerModel.PriorityLevel">
+              <MappingFragment StoreEntitySet="PriorityLevel">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BackgroundColour" ColumnName="BackgroundColour" />
+                <ScalarProperty Name="ForegroundColour" ColumnName="ForegroundColour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="SchedulerModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WorkRequestId" ColumnName="WorkRequestId" />
+                <ScalarProperty Name="HoursEstimated" ColumnName="HoursEstimated" />
+                <ScalarProperty Name="HoursScheduled" ColumnName="HoursScheduled" />
+                <ScalarProperty Name="ScheduledUTC" ColumnName="ScheduledUTC" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="PriorityId" ColumnName="PriorityId" />
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskStatus">
+            <EntityTypeMapping TypeName="SchedulerModel.TaskStatu">
+              <MappingFragment StoreEntitySet="TaskStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BackgroundColour" ColumnName="BackgroundColour" />
+                <ScalarProperty Name="ForegroundColour" ColumnName="ForegroundColour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskTypes">
+            <EntityTypeMapping TypeName="SchedulerModel.TaskType">
+              <MappingFragment StoreEntitySet="TaskType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BackgroundColour" ColumnName="BackgroundColour" />
+                <ScalarProperty Name="ForegroundColour" ColumnName="ForegroundColour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="SchedulerModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamLeader" ColumnName="TeamLeader" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilizations">
+            <EntityTypeMapping TypeName="SchedulerModel.Utilization">
+              <MappingFragment StoreEntitySet="Utilization">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WorkRequestId" ColumnName="WorkRequestId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskTypeId" ColumnName="TaskTypeId" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkRequests">
+            <EntityTypeMapping TypeName="SchedulerModel.WorkRequest">
+              <MappingFragment StoreEntitySet="WorkRequest">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="ExternalLink" ColumnName="ExternalLink" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

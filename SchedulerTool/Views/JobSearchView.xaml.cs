@@ -12,29 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SchedulerTool.ViewModels;
 
-namespace SchedulerTool
+namespace SchedulerTool.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for JobSearchViewModel.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class JobSearchView : UserControl
     {
-        public MainWindow()
+        public JobSearchView(JobSearchViewModel context)
         {
             InitializeComponent();
-        }
-
-        private void MoveWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                DragMove();
-            }
-            catch
-            {
-                // Supress Error and Do Nothing
-            }
+            DataContext = context;
         }
     }
 }
