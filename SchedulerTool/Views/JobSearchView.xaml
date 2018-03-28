@@ -119,7 +119,7 @@
                                         md:ButtonProgressAssist.IsIndeterminate="{Binding IsSaving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         md:ButtonProgressAssist.IsIndicatorVisible="{Binding IsSaving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         md:ButtonProgressAssist.Value="-1"
-                                        Command="{Binding SaveFileCommand}"
+                                        Command="{Binding SaveCommand}"
                                         DockPanel.Dock="Right"
                                         IsEnabled="{Binding TaskList.IsEmpty, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={c:InvertBool}}">
                                         <md:PackIcon
@@ -181,7 +181,7 @@
                                                 <Style
                                                     TargetType="DataGridCell">
           
-                                                            <Setter Property="Foreground" Value="{Binding ForegroundColour}" />
+                                                            <Setter Property="Foreground" Value="{Binding TaskTypes.ForegroundColour}" />
                                                             <Setter Property="VerticalAlignment" Value="Center" />
                                                             <Setter Property="HorizontalAlignment" Value="Center" />
                                                 </Style>

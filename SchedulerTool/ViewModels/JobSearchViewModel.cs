@@ -61,7 +61,7 @@ namespace SchedulerTool.ViewModels
         {
             try
             {
-                UserSearchInput = @"1000002; 1000003; 9999999";
+                UserSearchInput = @"1000002; 9999999";
 
                 MessengerInstance
                    .Send(new NotificationMessage($"Ignoring user's input and using {UserSearchInput} for demonstration"));

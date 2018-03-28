@@ -76,53 +76,57 @@ namespace ScheduleLogic.Fakes
 
             WorkRequests.Add(new WorkRequest
                              {
-                                 Id           = 1000000,
-                                 Client       = "Demo Client",
-                                 Name         = "Fake Work Request 01",
-                                 IsActive     = true,
-                                 Owner        = 0,
-                                 ExternalLink = "https://www.google.com.au"
+                                 Id       = 1000000,
+                                 Client   = "Demo Client",
+                                 Name     = "Fake Work Request 01",
+                                 IsActive = true,
+                                 //Owner = 0,
+                                 Employee     = new Employee {FirstName = "Steve", LastName = "Smith"},
+                                 ExternalLink = "https://www.google.com.au",
+                                 Tasks =
+                                 {
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 3,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 1,
+                                         TypeId         = 1,
+                                         WorkRequestId  = 1000000
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 2,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000000
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 0,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000000
+                                     }
+                                 }
                              });
 
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 3,
-                          HoursScheduled = 25m,
-                          StatusId       = 1,
-                          TypeId         = 1,
-                          WorkRequestId  = 1000000
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 2,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000000
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 0,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000000
-                      });
 
             WorkRequests.Add(new WorkRequest
                              {
@@ -131,48 +135,51 @@ namespace ScheduleLogic.Fakes
                                  Name         = "Fake Work Request 02",
                                  IsActive     = true,
                                  Owner        = 0,
-                                 ExternalLink = "https://www.google.com.au"
+                                 ExternalLink = "https://www.google.com.au",
+                                 Tasks =
+                                 {
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 3,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 1,
+                                         TypeId         = 1,
+                                         WorkRequestId  = 1000001
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 2,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000001
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 0,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000001
+                                     }
+                                 }
                              });
 
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 3,
-                          HoursScheduled = 25m,
-                          StatusId       = 1,
-                          TypeId         = 1,
-                          WorkRequestId  = 1000001
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 2,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000001
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 0,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000001
-                      });
 
             WorkRequests.Add(new WorkRequest
                              {
@@ -181,48 +188,86 @@ namespace ScheduleLogic.Fakes
                                  Name         = "Fake Work Request 03",
                                  IsActive     = true,
                                  Owner        = 0,
-                                 ExternalLink = "https://www.google.com.au"
+                                 ExternalLink = "https://www.google.com.au",
+                                 Tasks =
+                                 {
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Employees      = new Employee {FirstName = "Elon", LastName = "Musk"},
+                                         TaskTypes = new TaskType
+                                                     {
+                                                         Id               = 0,
+                                                         IsActive         = true,
+                                                         Name             = "Analysis",
+                                                         ForegroundColour = "#1E8449"
+                                                     },
+                                         TaskStatuses = new TaskStatus
+                                                        {
+                                                            Id               = 2,
+                                                            IsActive         = true,
+                                                            Name             = "Complete",
+                                                            ForegroundColour = "#1E8449"
+                                                        },
+                                         HoursScheduled = 25m,
+                                         WorkRequestId  = 1000002
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Employees      = new Employee {FirstName = "Morgan", LastName = "Freeman"},
+                                         TaskTypes = new TaskType
+                                                     {
+                                                         Id               = 0,
+                                                         IsActive         = true,
+                                                         Name             = "Programming",
+                                                         ForegroundColour = "#E74C3C"
+                                                     },
+                                         HoursScheduled = 25m,
+                                         TaskStatuses = new TaskStatus
+                                                        {
+                                                            Id               = 1,
+                                                            IsActive         = true,
+                                                            Name             = "In Progress",
+                                                            ForegroundColour = "#85C1E9"
+                                                        },
+                                         WorkRequestId = 1000002
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Employees      = new Employee {FirstName = "Steve", LastName = "Smith"},
+                                         TaskTypes = new TaskType
+                                                     {
+                                                         Id               = 1,
+                                                         IsActive         = true,
+                                                         Name             = "Testing",
+                                                         ForegroundColour = "#85C1E9"
+                                                     },
+                                         HoursScheduled = 25m,
+                                         TaskStatuses = new TaskStatus
+                                                        {
+                                                            Id               = 0,
+                                                            IsActive         = true,
+                                                            Name             = "Pending",
+                                                            ForegroundColour = "#E74C3C"
+                                                        },
+                                         WorkRequestId = 1000002
+                                     }
+                                 }
                              });
-
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 3,
-                          HoursScheduled = 25m,
-                          StatusId       = 1,
-                          TypeId         = 1,
-                          WorkRequestId  = 1000002
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 2,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000002
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 0,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000002
-                      });
 
             WorkRequests.Add(new WorkRequest
                              {
@@ -231,48 +276,50 @@ namespace ScheduleLogic.Fakes
                                  Name         = "Fake Work Request 04",
                                  IsActive     = true,
                                  Owner        = 0,
-                                 ExternalLink = "https://www.google.com.au"
+                                 ExternalLink = "https://www.google.com.au",
+                                 Tasks =
+                                 {
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 3,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 1,
+                                         TypeId         = 1,
+                                         WorkRequestId  = 1000003
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 2,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000003
+                                     },
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 0,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000003
+                                     }
+                                 }
                              });
-
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 3,
-                          HoursScheduled = 25m,
-                          StatusId       = 1,
-                          TypeId         = 1,
-                          WorkRequestId  = 1000003
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 2,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000003
-                      });
-            Tasks.Add(new Task
-                      {
-                          Id             = 0,
-                          IsActive       = true,
-                          ScheduledUtc   = DateTime.UtcNow,
-                          HoursEstimated = 10m,
-                          PriorityId     = 0,
-                          Resource       = 0,
-                          HoursScheduled = 25m,
-                          StatusId       = 0,
-                          TypeId         = 0,
-                          WorkRequestId  = 1000003
-                      });
 
             WorkRequests.Add(new WorkRequest
                              {
@@ -281,22 +328,25 @@ namespace ScheduleLogic.Fakes
                                  Name         = "Fake Work Request 05",
                                  IsActive     = true,
                                  Owner        = 0,
-                                 ExternalLink = "https://www.google.com.au"
+                                 ExternalLink = "https://www.google.com.au",
+                                 Tasks =
+                                 {
+                                     new Task
+                                     {
+                                         Id             = 0,
+                                         IsActive       = true,
+                                         ScheduledUtc   = DateTime.UtcNow,
+                                         HoursEstimated = 10m,
+                                         PriorityId     = 0,
+                                         Resource       = 0,
+                                         HoursScheduled = 25m,
+                                         StatusId       = 0,
+                                         TypeId         = 0,
+                                         WorkRequestId  = 1000004
+                                     }
+                                 }
                              });
 
-            Tasks.Add(new Task
-            {
-                Id = 0,
-                IsActive = true,
-                ScheduledUtc = DateTime.UtcNow,
-                HoursEstimated = 10m,
-                PriorityId = 0,
-                Resource = 0,
-                HoursScheduled = 25m,
-                StatusId = 0,
-                TypeId = 0,
-                WorkRequestId = 1000004
-            });
 
             PriorityLevels.Add(new PriorityLevel {Id = 0, IsActive = true, Name = "Standard"});
         }

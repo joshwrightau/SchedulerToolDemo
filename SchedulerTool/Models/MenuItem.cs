@@ -10,7 +10,7 @@ namespace SchedulerTool.Models
         private object                         _content;
         private ScrollBarVisibility            _displayHorizontalScrollbar;
         private ScrollBarVisibility            _displayVerticalScrollbar;
-        private IEnumerable<DocumentationLink> _documentationLinks;
+        private IEnumerable<DocumentationLink> _documentation;
         private Thickness                      _marginThickness;
         private string                         _name;
 
@@ -24,14 +24,14 @@ namespace SchedulerTool.Models
             }
         }
 
-        public IEnumerable<DocumentationLink> DocumentationLinks
+        public IEnumerable<DocumentationLink> Documentation
         {
-            get => _documentationLinks;
+            get => _documentation;
             set
             {
-                if (_documentationLinks.Equals(value)) return;
+                if (_documentation == value) return;
 
-                _documentationLinks = value;
+                _documentation = value;
                 RaisePropertyChanged();
             }
         }

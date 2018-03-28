@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,6 +10,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using MaterialDesignThemes.Wpf;
 using ScheduleLogic.Models;
+using SchedulerTool.Models;
 using SchedulerTool.Views;
 using MenuItem = SchedulerTool.Models.MenuItem;
 using Task = System.Threading.Tasks.Task;
@@ -35,12 +37,27 @@ namespace SchedulerTool.ViewModels
 
             MenuItems.Add(new MenuItem
                           {
-                Content = new JobSearchView(JobSearchViewModel),
+                              Content                    = new JobSearchView(JobSearchViewModel),
                               Name                       = "Job Search",
                               DisplayHorizontalScrollbar = ScrollBarVisibility.Disabled,
                               DisplayVerticalScrollbar   = ScrollBarVisibility.Auto,
-                              MarginThickness            = new Thickness(16)
+                              MarginThickness            = new Thickness(16),
+                              Documentation = new[]
+                                                   {
+                                                       new DocumentationLink
+                                                       {
+                                                           Label =
+                                                               "Get Help!",
+                                                           Type =
+                                                               DocumentationLinkTypes
+                                                                  .Other,
+                                                           Url =
+                                                               "mailto:josh@wright.codes?subject=Send Help - Job Search page"
+                                                       }
+                                                   }
                           });
+
+            SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
         public SnackbarMessageQueue MessageQueue { get; set; } = new SnackbarMessageQueue();
@@ -53,18 +70,6 @@ namespace SchedulerTool.ViewModels
                 if (_isLeftDrawerOpen == value) return;
 
                 _isLeftDrawerOpen = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool IsHamburgerMenuChecked
-        {
-            get => _isHamburgerMenuChecked;
-            set
-            {
-                if (_isHamburgerMenuChecked == value) return;
-
-                _isHamburgerMenuChecked = value;
                 RaisePropertyChanged();
             }
         }
